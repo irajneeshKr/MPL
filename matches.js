@@ -2,13 +2,28 @@
 
 var matchData=JSON.parse(localStorage.getItem("schedule"));
 
-
+function filterVenue(matchData){
+    if(document.querySelector("#filterVenue").value=="none"){
+        document.querySelector("tbody").innerHTML="";
+        display(matchData);
+    }else{
+    document.querySelector("tbody").innerHTML="";
+  var output=  matchData.filter(function(element){
+        var x=element.Venue.toUpperCase();
+        var y=document.querySelector("#filterVenue").value;
+        var z=y.toUpperCase();
+       if(x==z){
+           return element;
+       }
+    })
+    display(output);
+}
+}
 
 display(matchData);
 
 function display(data){
 data.forEach(function(element){
-
     var tr=document.createElement("tr");
 
     var td1=document.createElement("td");
@@ -48,3 +63,7 @@ function makeFavorite(element){
    //console.log(FavoriteArr);
    localStorage.setItem("favourites",JSON.stringify(FavoriteArr));
 }
+
+document.querySelector("#filterVenue").addEventListener("change",function(){
+    filterVenue(matchData);
+})
